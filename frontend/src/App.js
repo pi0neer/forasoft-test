@@ -1,14 +1,24 @@
-import React from 'react';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import Login from './components/Login/Login';
-import './App.scss';
-
+import Login from "./components/Login/Login";
+import Chat from "./components/Chat/Chat";
+import "./App.scss";
 
 function App() {
   return (
-    <div className="app">
-      <Login/>
-    </div>
+    <Router>
+      <div className="app">
+        <Switch>
+          <Route path="/chat">
+            <Chat />
+          </Route>
+          <Route path="/">
+            <Login />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
