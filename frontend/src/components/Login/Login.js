@@ -1,18 +1,27 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 
 import "./Login.scss";
 
-function Login() {
+const Login = () => {
   const [userName, setUserName] = useState("");
   const history = useHistory();
+  const location = useLocation();
   const handleEnterButton = () => {
-    let id = 1;
-    history.push({
-      pathname: '/chat',
-      search: `?id=${id}`,
-      state: { userName: userName }
-    });
+    if (!userName) alert("Enter username!");
+    else {
+      let newRoomID = uuidv4();
+      let roomID =
+        !location.state || !location.state.roomID
+          ? newRoomID
+          : location.state.roomID;
+      history.push({
+        pathname: "/chat",
+        search: `?id=${roomID}`,
+        state: { userName: userName, roomID: roomID, newRoom: !location.state || !location.state.roomID }
+      });
+    }
   };
 
   return (
@@ -27,6 +36,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;
