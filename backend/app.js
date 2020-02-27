@@ -41,13 +41,12 @@ io.on("connection", socket => {
   });
   socket.on("disconnect", () => {
     let roomID = findUserBySocketIDRoom(socket.id);
-    state.deleteUserFromChat(roomID, socket.id);
-    let room = state.getRoom(roomID);
-    io.to(roomID).emit(
-      "online users",
-        room.users.map(user => user.userName)
-    );
-    if (room.users.length === 0) state.deleteRoom(roomID)
+    if (roomID) {
+      state.deleteUserFromChat(roomID, socket.id);
+      let room = state.getRoom(roomID);
+      io.to(roomID).emit("online users", room.users.map(user => user.userName));
+      if (room.users.length === 0) state.deleteRoom(roomID);
+    }
   });
 });
 
